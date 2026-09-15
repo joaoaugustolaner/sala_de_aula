@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercícios de Funções em Python</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #2d3748;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        h1 { color: #1a365d; border-bottom: 2px solid #3182ce; padding-bottom: 8px; }
+        h2 { color: #2b6cb0; margin-top: 25px; }
+        .card {
+            background: #f7fafc;
+            border-left: 4px solid #cbd5e0;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+        .easy { border-left-color: #38a169; }
+        .medium { border-left-color: #dd6b20; }
+        .hard { border-left-color: #e53e3e; }
+        code { background: #edf2f7; padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #805ad5; }
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        th, td { border: 1px solid #e2e8f0; padding: 6px 10px; text-align: left; font-size: 0.9em; }
+        th { background-color: #edf2f7; }
+    </style>
+</head>
+<body>
+
+    <h1>Exercícios de Funções em Python</h1>
+    <p><em>Tópicos: Parâmetros, Cálculos Básicos e f-Strings (Sem Laços de Repetição ou Condicionais)</em></p>
+
+    <h2>🟢 Nível 1: Exercícios Fáceis</h2>
+
+    <div class="card easy">
+        <h3>1. Gerador de Saudação Personalizada</h3>
+        <p>Escreva uma função <code>formatar_saudacao(nome, cidade)</code> que retorne uma mensagem de boas-vindas usando f-string.</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>formatar_saudacao("Alice", "Porto Alegre")</code></td><td><code>"Olá Alice, seja bem-vinda a Porto Alegre!"</code></td></tr>
+        </table>
+    </div>
+
+    <div class="card easy">
+        <h3>2. Calculadora de Perímetro de Retângulo</h3>
+        <p>Escreva uma função <code>calcular_perimetro(largura, altura)</code> que retorne <code>2 * (largura + altura)</code>.</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>calcular_perimetro(5.0, 10.0)</code></td><td><code>30.0</code></td></tr>
+        </table>
+    </div>
+
+    <div class="card easy">
+        <h3>3. Conversor de Temperatura</h3>
+        <p>Escreva uma função <code>fahrenheit_para_celsius(temp_f)</code> usando a fórmula <code>(F - 32) * (5 / 9)</code>.</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>fahrenheit_para_celsius(68)</code></td><td><code>20.0</code></td></tr>
+        </table>
+    </div>
+
+    <div class="card easy">
+        <h3>4. Divisor de Gorjeta do Restaurante</h3>
+        <p>Escreva uma função <code>calcular_gorjeta_por_pessoa(conta, porcentagem_gorjeta, pessoas)</code>.</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>calcular_gorjeta_por_pessoa(100.0, 15, 3)</code></td><td><code>5.0</code></td></tr>
+        </table>
+    </div>
+
+    <div class="card easy">
+        <h3>5. Área e Resumo do Círculo</h3>
+        <p>Escreva uma função <code>resumo_circulo(raio)</code> que retorne um texto com a área arredondada. (Use <code>pi = 3.14159</code>)</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>resumo_circulo(3.0)</code></td><td><code>"Um círculo com raio 3.0 tem uma área de 28.27."</code></td></tr>
+        </table>
+    </div>
+
+    <h2>🟡 Nível 2: Exercícios Médios</h2>
+
+    <div class="card medium">
+        <h3>6. Resumo de Juros Compostos</h3>
+        <p>Escreva uma função <code>resumo_juros_compostos(capital, taxa, anos)</code>. Fórmula: <code>M = C * (1 + taxa/100)^anos</code>.</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>resumo_juros_compostos(1000.0, 5.0, 3)</code></td><td><code>"Após 3 anos, R$ 1000.00 cresce para R$ 1157.63."</code></td></tr>
+        </table>
+    </div>
+
+    <div class="card medium">
+        <h3>7. Volume e Área do Cilindro</h3>
+        <p>Escreva uma função <code>metricas_cilindro(raio, altura)</code> que retorne ambas as métricas em um texto formatado.</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>metricas_cilindro(2.0, 5.0)</code></td><td><code>"Volume do Cilindro: 62.83 | Área de Superfície: 87.96"</code></td></tr>
+        </table>
+    </div>
+
+    <div class="card medium">
+        <h3>8. Desconto do Item e Fatura</h3>
+        <p>Escreva uma função <code>gerar_item_fatura(nome_item, preco, porcentagem_desconto)</code>.</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>gerar_item_fatura("Teclado", 80.0, 15.0)</code></td><td><code>"Item: Teclado | Preço Final: R$ 68.00 (Você economizou R$ 12.00)"</code></td></tr>
+        </table>
+    </div>
+
+    <h2>🔴 Nível 3: Exercícios Médio-Difíceis</h2>
+
+    <div class="card hard">
+        <h3>9. Estimador de Empréstimo</h3>
+        <p>Escreva uma função <code>resumo_emprestimo(capital, taxa_anual, anos)</code> utilizando a fórmula de amortização padrão.</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>resumo_emprestimo(10000, 6.0, 3)</code></td><td><code>"Empréstimo: R$ 10000.00 | Parcela Mensal: R$ 304.22 | Total Pago: R$ 10951.92"</code></td></tr>
+        </table>
+    </div>
+
+    <div class="card hard">
+        <h3>10. Distância Euclidiana 2D</h3>
+        <p>Escreva uma função <code>calcular_distancia(x1, y1, x2, y2)</code> que retorne a distância formatada em 2 casas decimais.</p>
+        <table>
+            <tr><th>Exemplo de Chamada</th><th>Retorno Esperado</th></tr>
+            <tr><td><code>calcular_distancia(1, 2, 4, 6)</code></td><td><code>"A distância entre (1, 2) e (4, 6) é de 5.00 unidades."</code></td></tr>
+        </table>
+    </div>
+
+</body>
+</html>
