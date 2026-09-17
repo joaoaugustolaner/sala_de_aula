@@ -64,7 +64,18 @@ def validar_triangulo(a:float, b:float, c:float):
         return "Não é triângulo"
 
 def calcular_imposto(salario:float):
-    
+    excedente = salario - 20000
+    if salario >= 2000 and salario < 4000:
+        return excedente * 0.1
+    if salario >= 4000:
+        return 200 + (excedente * 0.2)
+    return 0
+
+def validador_ano_bissexto(ano:int):
+    if ano%4 == 0 and ano%400 == 0:
+        return True
+    return False
+
 
 if __name__ == "__main__":
     teste = fizz_buzz(15)
