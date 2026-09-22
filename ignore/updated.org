@@ -1,0 +1,306 @@
+#+TITLE: Mini-Projeto: Agente de Despesas no Telegram
+#+SUBTITLE: Curso Ferramentas de Inteligência Artificial
+#+AUTHOR: Prof. [Seu Nome] — SENAC-RS
+#+DATE: \today
+#+OPTIONS: toc:2 num:t
+#+LATEX_CLASS: article
+#+LATEX_HEADER: \usepackage[utf8]{inputenc}
+#+LATEX_HEADER: \usepackage[T1]{fontenc}
+#+LATEX_HEADER: \usepackage[a4paper, margin=2.5cm]{geometry}
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \usepackage{xcolor}
+#+LATEX_HEADER: \usepackage{enumitem}
+#+LATEX_HEADER: \usepackage{tabularx}
+#+LATEX_HEADER: \usepackage{booktabs}
+
+#+BEGIN_QUOTE
+*Objetivo:* Construir um agente que recebe um *áudio* no Telegram, transcreve,
+interpreta a data e a categoria da despesa e registra automaticamente uma linha
+em uma planilha do Google Sheets.
+
+*Tempo estimado:* 60 a 90 minutos.
+*Custo:* R\$ 0,00 (todas as ferramentas usadas têm plano gratuito).
+#+END_QUOTE
+
+* ATENÇÃO — Leia antes de começar
+
+Este projeto usa apenas *ferramentas gratuitas*:
+
+#+ATTR_LATEX: :environment tabularx :width \textwidth :align |X|X|X|
+| Ferramenta          | Uso                            | Limite gratuito              |
+|---------------------+--------------------------------+------------------------------|
+| Telegram            | Canal de entrada (bot)         | Ilimitado, gratuito          |
+| Google AI Studio    | Transcrição (Gemini)           | Cota gratuita generosa       |
+| Make.com            | Orquestração do fluxo          | 1.000 operações/mês          |
+| Google Sheets       | Armazenamento dos dados        | Ilimitado                    |
+
+*Não é necessário* ter número dedicado, WhatsApp Business, CNPJ ou cartão de
+crédito. O bot do Telegram usa um *token* em vez de um número de telefone, então
+seu número pessoal continua funcionando normalmente.
+
+* ETAPA 1 — Criar o bot no Telegram
+
+** 1.1 Abrir o BotFather
+
+- [ ] Abra o Telegram (celular ou desktop).
+- [ ] Na barra de busca, procure por =@BotFather= (é o bot oficial do Telegram
+      para criar outros bots).
+- [ ] Clique em *Start* para iniciar a conversa.
+
+** 1.2 Criar um novo bot
+
+- [ ] Envie a mensagem =/newbot=.
+- [ ] O BotFather perguntará o *nome* do bot. Digite algo como
+      =Agente de Despesas=.
+- [ ] Em seguida, perguntará o *username*. Ele precisa terminar em =bot=.
+      Exemplo: =agente_despesas_bot=.
+- [ ] O BotFather responderá com uma mensagem contendo o *token de acesso*,
+      algo como:
+      =123456789:ABCdefGHIjklMNOpqrSTUvwxYZ=
+
+** 1.3 Guardar o token
+
+- [ ] Copie o token e guarde em local seguro (bloco de notas, gerenciador de
+      senhas).
+- [ ] *Nunca compartilhe esse token publicamente.* Ele é a chave do seu bot.
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 1*
+Você tem uma string no formato =NUMERO:ALFANUMERICO=. Se sim, esta etapa
+está concluída.
+#+END_QUOTE
+
+** 1.4 Iniciar conversa com o próprio bot
+
+- [ ] Na busca do Telegram, procure pelo *username* que você escolheu
+      (ex: =@agente_despesas_bot=).
+- [ ] Clique em *Start* e envie uma mensagem qualquer (ex: =/start=).
+- [ ] Isso é necessário para que o bot possa enviar mensagens de volta para
+      você.
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 1.4*
+Você vê a conversa com seu bot aberta e consegue enviar mensagens para ele.
+Se sim, esta etapa está concluída.
+#+END_QUOTE
+
+* ETAPA 2 — Obter a chave de API do Gemini (gratuita)
+
+- [ ] Acesse [[https://aistudio.google.com/app/apikey][aistudio.google.com/app/apikey]].
+- [ ] Faça login com a mesma conta Google que você usará no Make.
+- [ ] Clique em *Create API key* e selecione *Create API key in new project*.
+- [ ] Copie a chave (começa com =AIza...=) e guarde em local seguro.
+
+#+BEGIN_QUOTE
+*⚠️ Nunca compartilhe essa chave publicamente.* Se vazar, revogue no mesmo painel.
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 2*
+Você tem em mãos uma string que começa com =AIza=. Se sim, esta etapa está
+concluída.
+#+END_QUOTE
+
+* ETAPA 3 — Criar a planilha de controle
+
+- [ ] Acesse [[https://sheets.google.com][sheets.google.com]] e crie uma planilha chamada =Despesas IA=.
+- [ ] Renomeie a primeira aba para =Despesas=.
+- [ ] Na linha 1, crie os seguintes cabeçalhos, exatamente nesta ordem:
+
+#+ATTR_LATEX: :environment tabularx :width \textwidth :align |X|X|X|X|X|
+| A     | B     | C         | D          | E          |
+|-------+-------+-----------+------------+------------|
+| Data  | Valor | Categoria | Descrição  | Origem     |
+
+- [ ] Formate a coluna *A* como *Data* (Formatar > Número > Data).
+- [ ] Formate a coluna *B* como *Moeda (R$)*.
+- [ ] Copie o *ID da planilha* da URL:
+      =docs.google.com/spreadsheets/d/*ID_AQUI*/edit=
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 3*
+A planilha existe, tem os 5 cabeçalhos e o ID foi copiado. Se sim, esta etapa
+está concluída.
+#+END_QUOTE
+
+* ETAPA 4 — Criar conta no Make.com
+
+- [ ] Acesse [[https://www.make.com][make.com]] e crie uma conta gratuita.
+- [ ] No painel, clique em *Create a new scenario*.
+- [ ] Nomeie o cenário como =Agente de Despesas Telegram=.
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 4*
+Você vê o editor visual do Make, com um círculo grande no centro pedindo para
+adicionar um módulo. Se sim, esta etapa está concluída.
+#+END_QUOTE
+
+* ETAPA 5 — Montar o cenário no Make
+
+O cenário terá *5 módulos em sequência*. Monte um de cada vez, testando após
+cada adição.
+
+** Módulo 1 — Gatilho: Telegram Bot
+
+- [ ] Clique no círculo central e procure *Telegram Bot*.
+- [ ] Escolha o gatilho *Watch Updates*.
+- [ ] Clique em *Create a connection* e cole o *token* que o BotFather enviou.
+- [ ] No campo *Update Types*, selecione *Message*.
+- [ ] Deixe *Limit* em =1= (para testes).
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 5.1*
+Envie uma mensagem de texto qualquer para o seu bot no Telegram.
+Clique em *Run once* no Make. O módulo 1 deve acender com uma bolha verde,
+mostrando o conteúdo da mensagem recebida.
+#+END_QUOTE
+
+** Módulo 2 — Download do áudio
+
+- [ ] Adicione um módulo *Telegram Bot > Download a File*.
+- [ ] No campo *File ID*, mapeie o valor =message.voice.file_id= vindo do
+      módulo 1.
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 5.2*
+Envie um *áudio* para o bot. Rode o cenário. O módulo 2 deve retornar um
+arquivo binário de áudio (=Data= preenchido).
+#+END_QUOTE
+
+** Módulo 3 — Transcrição com Gemini
+
+- [ ] Adicione um módulo *Google Gemini AI > Generate a response* (ou similar).
+- [ ] Em *Connection*, clique em *Add* e cole a chave de API (=AIza...=).
+- [ ] No campo *Prompt*, escreva:
+
+#+BEGIN_SRC text
+Transcreva o áudio a seguir para texto em português do Brasil.
+Retorne APENAS a transcrição, sem comentários, sem aspas, sem formatação.
+#+END_SRC
+
+- [ ] Anexe o arquivo de áudio do módulo 2 ao campo *File/Attachment* (a
+      configuração exata varia conforme a versão do módulo — procure a opção
+      *File* ou *Media*).
+
+#+BEGIN_QUOTE
+*⚠️ Se o módulo do Gemini não aceitar áudio diretamente:*
+Use o módulo *OpenAI > Create Transcription (Whisper)* — também tem cota
+gratuita inicial. Alternativa: use um módulo *HTTP > Make a request* para
+chamar a API do Gemini diretamente, com o arquivo em =multipart/form-data=.
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 5.3*
+Rode o cenário com um áudio curto (ex.: "Gastei 30 reais no mercado ontem").
+O módulo 3 deve retornar um texto transcrito no campo de saída.
+#+END_QUOTE
+
+** Módulo 4 — Extração de dados com IA (o cérebro)
+
+- [ ] Adicione outro módulo *Google Gemini AI > Generate a response*.
+- [ ] No campo *Prompt*, use exatamente este texto:
+
+#+BEGIN_SRC text
+Você é um assistente financeiro. Hoje é {{formatDate(now; "YYYY-MM-DD")}}.
+
+Analise o texto abaixo e extraia:
+- data: a data da despesa. Interprete expressões como "ontem",
+  "sábado passado", "último domingo", "13 de julho". Converta para YYYY-MM-DD.
+- valor: o valor numérico em reais, apenas número decimal (ex.: 30.50).
+- categoria: escolha UMA entre: restaurante, delivery, farmácia, mercado,
+  cinema, lazer, transporte, outros.
+- descricao: uma frase curta descrevendo a despesa.
+
+Retorne APENAS um JSON válido, sem texto adicional, neste formato:
+{"data": "YYYY-MM-DD", "valor": 0.00, "categoria": "...", "descricao": "..."}
+
+Texto transcrito:
+{{cole aqui o texto do módulo 3}}
+#+END_SRC
+
+- [ ] No campo do texto transcrito, mapeie a saída do módulo 3.
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 5.4*
+Rode o cenário com o áudio "Gastei 30 reais no mercado ontem". O módulo 4 deve
+retornar algo como:
+={"data": "2026-09-20", "valor": 30.00, "categoria": "mercado", "descricao": "..."}=
+Se a data estiver correta, o cérebro está funcionando.
+#+END_QUOTE
+
+** Módulo 5 — Gravar no Google Sheets
+
+- [ ] Adicione um módulo *Google Sheets > Add a Row*.
+- [ ] Conecte sua conta Google.
+- [ ] Selecione a planilha =Despesas IA= e a aba =Despesas=.
+- [ ] Mapeie as colunas:
+      - *Data* ← =data= do módulo 4
+      - *Valor* ← =valor= do módulo 4
+      - *Categoria* ← =categoria= do módulo 4
+      - *Descrição* ← =descricao= do módulo 4
+      - *Origem* ← texto fixo =Telegram=
+
+#+BEGIN_QUOTE
+*✅ RESULTADO VERIFICÁVEL 5.5*
+Rode o cenário completo. Abra a planilha. Uma nova linha deve ter aparecido com
+os dados corretos.
+#+END_QUOTE
+
+* ETAPA 6 — Ativar e testar de ponta a ponta
+
+- [ ] Clique no botão *ON* (canto inferior esquerdo do Make) para ativar o
+      cenário.
+- [ ] Envie 3 áudios diferentes para o bot no Telegram:
+
+#+BEGIN_SRC text
+1. "Gastei 45 reais no restaurante no sábado passado"
+2. "Paguei 12,90 na farmácia ontem"
+3. "Cinema hoje, 40 reais"
+#+END_SRC
+
+- [ ] Aguarde 30 segundos e atualize a planilha.
+
+#+BEGIN_QUOTE
+*✅ RESULTADO FINAL*
+Três novas linhas na planilha, com datas corretas (inclusive as expressões
+relativas), valores numéricos e categorias coerentes. *Parabéns — seu agente
+está funcionando.*
+#+END_QUOTE
+
+* Solução de problemas comuns
+
+#+ATTR_LATEX: :environment tabularx :width \textwidth :align |X|X|X| :font \footnotesize
+| Sintoma                        | Causa provável               | Solução                        |
+|--------------------------------+------------------------------+--------------------------------|
+| Módulo 1 não acende            | Token inválido               | Refazer conexão com o token    |
+| Bot não responde               | Conversa não iniciada        | Enviar /start para o bot       |
+| Áudio não baixa                | File ID não mapeado          | Conferir mapeamento no módulo 2|
+| Transcrição vazia              | Formato de áudio incompatível| Testar com áudio .ogg do Telegram |
+| Data errada                    | Prompt sem data atual        | Incluir now no prompt do módulo 4 |
+| Categoria sempre "outros"      | Categorias não listadas      | Reforçar lista no prompt       |
+| JSON inválido                  | IA adicionou texto extra     | Adicionar "Retorne APENAS JSON"|
+
+* Reflexão final (meta-aprendizagem)
+
+Responda em uma frase para cada:
+
+1. Em que momento o agente *substituiu* uma decisão humana?
+2. Em que momento ele *ampliou* sua capacidade?
+3. O que aconteceria se o prompt do módulo 4 estivesse ambíguo?
+4. Como você aplicaria os princípios de *Transparência*, *Responsabilidade* e
+   *Inclusão* neste projeto?
+
+* Glossário rápido
+
+- *Webhook:* URL que recebe notificações automáticas de outro sistema.
+- *Token:* chave que identifica seu bot no Telegram.
+- *API key:* chave que identifica você ao usar um serviço na nuvem.
+- *Prompt:* instrução em texto enviada à IA.
+- *JSON:* formato de dados estruturados, legível por máquinas.
+- *Agente autônomo:* IA que executa múltiplos passos sem intervenção humana.
+
+#+BEGIN_QUOTE
+*Dica final:* o segredo deste projeto não é a ferramenta, é o *prompt do módulo 4*.
+Refine-o, teste variações e observe como pequenas mudanças alteram o resultado.
+É aí que mora o letramento em IA.
+#+END_QUOTE

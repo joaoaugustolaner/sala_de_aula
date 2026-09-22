@@ -167,6 +167,8 @@ def mover_zeros_para_o_final(numeros: list):
 
     for numero in zeros_final:
         #TODO: 
+        pass
+    pass
 
 
 
