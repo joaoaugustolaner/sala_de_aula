@@ -116,10 +116,10 @@
 ## 🔴 Nível 3: Exercícios Difíceis (5 Problemas)
 
 ### Exercício 16: Análise de Sequência Crescente
-* **Objetivo:** Escreva uma função `e_estritamente_crescente(numeros)` que receba uma lista de números e verifique se cada elemento é estritamente maior que o anterior. Retorne `True` ou `False`.
+* **Objetivo:** Escreva uma função `is_estritamente_crescente(palavras)` que receba uma lista de strings e verifique se cada string é estritamente maior que o anterior. Retorne `True` ou `False`.
 * **Exemplos de Chamada:**
-  * `e_estritamente_crescente([1, 3, 5, 8, 12])` -> `True`
-  * `e_estritamente_crescente([1, 3, 3, 7])` -> `False`
+  * `is_estritamente_crescente(["lá", "lua", "porta", "cinema", "computador"])` -> `True`
+  * `is_estritamente_crescente(["palito","geringonça","lápis","lâmpada"])` -> `False`
 
 ---
 
