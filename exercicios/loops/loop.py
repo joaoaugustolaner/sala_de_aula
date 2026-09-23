@@ -165,10 +165,54 @@ def is_estritamente_crescente(palavras: list):
 def mover_zeros_para_o_final(numeros: list):
     zeros_final = numeros.copy()
 
-    for numero in zeros_final:
-        #TODO: 
-        pass
-    pass
+    for numero in numeros:
+        if numero == 0:
+            zeros_final.remove(numero)
+            zeros_final.append(numero)
+            
+    return zeros_final
+        
+def processar_fila(clientes: list[tuple]):
+    aux = []
+    index = 0
+
+    for client in clientes:
+        if client[1] >= 60:
+            aux.insert(client, index)
+            index+=1
+        else:
+            aux.append(client)
+
+    return aux
+
+
+def encontrar_picos(numeros: list[int]):
+    picos = []
+    index = 1
+
+    while(index < len(numeros) - 1):
+        if numeros[index-1] < numeros[index] and \
+            numeros[index] > numeros[index + 1]:
+            
+            picos.append(numeros[index])
+
+    return picos
+
+         
+def validar_extrato(saldo_inicial: float, 
+                    transacoes: list):
+    
+    index = 0
+    saldo_final = saldo_inicial
+
+    while (index < len(transacoes)):
+        if saldo_final < 0:
+            return f"Extrato Inválido: Saldo Negativo na Posição {index}"
+        else:
+            saldo_final += transacoes[index]
+        
+        return f"Extrato Válido: Saldo Final R$ {saldo_final}"
+
 
 
 
