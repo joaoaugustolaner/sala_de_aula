@@ -14,9 +14,9 @@ class Relogio:
             self.hora = 0
 
     def passar_minuto(self):
-        if self.minuto < 60:
-            self.minuto += 1
-        else:
+        self.minuto +=1
+
+        if self.minuto == 60:
             self.minuto = 0
             self._passar_hora()
     
@@ -24,9 +24,13 @@ class Relogio:
     def mostrar_horario(self):
         print(f"São {self.hora}h{self.minuto}")
 
-relogio = Relogio(hora=20, minuto=57)
+relogio = Relogio(hora=12, minuto=58)
 relogio.passar_minuto()
+relogio.mostrar_horario()
+
 relogio.passar_minuto()
+relogio.mostrar_horario()
+
 relogio.passar_minuto()
 relogio.mostrar_horario()
 
