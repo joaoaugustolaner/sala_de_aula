@@ -191,16 +191,14 @@ def encontrar_picos(numeros: list[int]):
     index = 1
 
     while(index < len(numeros) - 1):
-        if numeros[index-1] < numeros[index] and \
-            numeros[index] > numeros[index + 1]:
-            
+        if numeros[index-1] < numeros[index] and numeros[index] > numeros[index + 1]:
             picos.append(numeros[index])
+        index+=1
 
     return picos
 
          
-def validar_extrato(saldo_inicial: float, 
-                    transacoes: list):
+def validar_extrato(saldo_inicial: float, transacoes: list):
     
     index = 0
     saldo_final = saldo_inicial
@@ -210,8 +208,9 @@ def validar_extrato(saldo_inicial: float,
             return f"Extrato Inválido: Saldo Negativo na Posição {index}"
         else:
             saldo_final += transacoes[index]
-        
-        return f"Extrato Válido: Saldo Final R$ {saldo_final}"
+            index+=1
+    
+    return f"Extrato Válido: Saldo Final R$ {saldo_final}"
 
 
 
