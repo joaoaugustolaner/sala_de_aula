@@ -1,0 +1,46 @@
+#+TITLE: UC1 - Projeto final
+#+SUBTITLE: Uma abordagem de orientação de objetos
+#+AUTHOR: João Augusto Tonial Laner
+#+OPTIONS: toc:2 num:t
+
+
+* Projeto
+
+
+** Introdução
+
+Você deve criar um projeto que simule um software de gestão de alunos.
+Esse software deverá gerenciar todos os aspectos que dizem respeito a
+uma sala de aula virtual como: verificar alunos, bloquear aluno, mutar
+aluno, ordenar alunos por nota e também ordenar alunos por ordem
+alfabética.
+
+Os alunos também terão características específicas que representem
+eles, assim como o professor.
+
+Para isso vamos entender melhor as classes:
+
+** Pessoa
+
+Pessoa é a classe base de =Aluno= e =Professor=, são atributos dessa
+classe =nome=, =idade=, =data_nascimento=.
+
+** Aluno
+
+Herda os atributos de =Pessoa= e também possui o atributo =notas=, que
+é uma lista de notas, =média=, guarda o valor das médias das notas,
+=faltas=, que é um atributo que conta as faltas, um atributo
+=recuperação=, que indica se o aluno está em recuperação e
+um atributo =aprovado= que indica se foi aprovado ou não.
+
+O =Aluno= também o(s) seguinte(s) método(s):
+
+1. =calcular_média(nota:list)=: deve calcular uma média simples entre
+   as notas do aluno, mas caso o aluno se encontre em recuperação,
+   então deve calcular uma média ponderada com peso *1* para as notas
+   normais e com peso *2* para a última nota da lista, que representa
+   a nota da prova de recuperação.
+
+** Professor
+
+Professor também herda os atributos de =Pessoa= e deve possuir os atributos
