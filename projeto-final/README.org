@@ -43,4 +43,23 @@ O =Aluno= também o(s) seguinte(s) método(s):
 
 ** Professor
 
-Professor também herda os atributos de =Pessoa= e deve possuir os atributos
+Professor também herda os atributos de =Pessoa= e deve possuir os
+atributos =turma=, que representa uma lista de alunos, e um atributo
+=disciplina= que indica qual disciplina ministra.
+
+O =Professor= também tem os seguintes métodos:
+
+1. =atribuir_nota(aluno: Aluno)=: Que deve atribuir uma nota a um
+   aluno, se já houver =2= notas na lista de notas do aluno então deve
+   retornar uma exceção =Overflow Error=, tratar o erro e retornar a
+   mensagem: ="Você não pode mais atribuir notas para esse aluno"=,
+   porém, caso o aluno se encontre em recuperação, então uma nota a
+   mais pode ser atribuída. Se tentar adicionar =4= notas, então o
+   mesmo fluxo de erro deve ocorrer.
+2. =atribuir_falta(aluno: Aluno)=: Deve atribuir uma falta ao aluno,
+   se o aluno tiver mais de 5 faltas, então o aluno se encontra
+   reprovado e esse resultado não pode ser alterado.
+3. =bloquear_aluno(nome: str)=: Deve procurar, entre os alunos da turma
+   qual tem esse nome, e deve remover da lista da turma. Esse
+   nome também é adicionado à lista de bloqueio e não pode ser
+   cadastrado novamente na turma.
