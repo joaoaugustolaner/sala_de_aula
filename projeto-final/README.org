@@ -1,13 +1,15 @@
 #+TITLE: UC1 - Projeto final
 #+SUBTITLE: Uma abordagem de orientação de objetos
 #+AUTHOR: João Augusto Tonial Laner
+#+DATE: 2026
 #+OPTIONS: toc:2 num:t
+#+LaTeX_CLASS: article
+#+LaTeX_CLASS_OPTIONS: [a4paper,11pt]
+#+LATEX_HEADER: \usepackage{hyperref}
+#+LATEX_HEADER: \usepackage{ccicons}
+#+LATEX_HEADER: \hypersetup{colorlinks=true, urlcolor=blue, linkcolor=black}
 
-
-* Projeto
-
-
-** Introdução
+* Introdução
 
 Você deve criar um projeto que simule um software de gestão de alunos.
 Esse software deverá gerenciar todos os aspectos que dizem respeito a
@@ -20,6 +22,8 @@ eles, assim como o professor.
 
 Para isso vamos entender melhor as classes:
 
+* Classes
+
 ** Pessoa
 
 Pessoa é a classe base de =Aluno= e =Professor=, são atributos dessa
@@ -30,36 +34,97 @@ classe =nome=, =idade=, =data_nascimento=.
 Herda os atributos de =Pessoa= e também possui o atributo =notas=, que
 é uma lista de notas, =média=, guarda o valor das médias das notas,
 =faltas=, que é um atributo que conta as faltas, um atributo
-=recuperação=, que indica se o aluno está em recuperação e
+=turmas=, que indica em quais turmas o aluno está matriculado e
 um atributo =aprovado= que indica se foi aprovado ou não.
 
 O =Aluno= também o(s) seguinte(s) método(s):
 
-1. =calcular_média(nota:list)=: deve calcular uma média simples entre
-   as notas do aluno, mas caso o aluno se encontre em recuperação,
-   então deve calcular uma média ponderada com peso *1* para as notas
-   normais e com peso *2* para a última nota da lista, que representa
-   a nota da prova de recuperação.
+1. =calcular_média(notas:list)=: deve calcular uma média simples entre
+   as notas do aluno e atribuir ao elemento ~média~
+
+2. ~calcular_média_ponderada(notas:list, recuperação: float)~: Calcula
+   uma média ponderada entre as notas da lista e a recuperação. Esse
+   cálculo é feito usando uma média simples entre as notas já
+   presentes na lista de notas em conjunto com a nota de recuperação
+   que devem ter peso *1* e *2*, respectivamente. O resultado desse
+   método deve sobrescrever o valor antes presente no atributo =média=.
 
 ** Professor
 
-Professor também herda os atributos de =Pessoa= e deve possuir os
-atributos =turma=, que representa uma lista de alunos, e um atributo
-=disciplina= que indica qual disciplina ministra.
+Professor também herda os atributos de =Pessoa= e deve possuir o
+atributo =disciplina= que indica qual disciplina ministra.
 
 O =Professor= também tem os seguintes métodos:
 
 1. =atribuir_nota(aluno: Aluno)=: Que deve atribuir uma nota a um
    aluno, se já houver =2= notas na lista de notas do aluno então deve
    retornar uma exceção =Overflow Error=, tratar o erro e retornar a
-   mensagem: ="Você não pode mais atribuir notas para esse aluno"=,
-   porém, caso o aluno se encontre em recuperação, então uma nota a
-   mais pode ser atribuída. Se tentar adicionar =4= notas, então o
-   mesmo fluxo de erro deve ocorrer.
+   mensagem: ="Você não pode mais atribuir notas para esse aluno"=.
+
 2. =atribuir_falta(aluno: Aluno)=: Deve atribuir uma falta ao aluno,
    se o aluno tiver mais de 5 faltas, então o aluno se encontra
    reprovado e esse resultado não pode ser alterado.
-3. =bloquear_aluno(nome: str)=: Deve procurar, entre os alunos da turma
-   qual tem esse nome, e deve remover da lista da turma. Esse
-   nome também é adicionado à lista de bloqueio e não pode ser
-   cadastrado novamente na turma.
+
+3. ~realizar_recuperação(alunos: list, notas: list)~: Deve atribuir a
+   nota, presente na lista de notas, para o aluno na lista de alunos,
+   de modo que as notas dispostas na lista e sua posição indicam a
+   qual aluno essa nota deve ser atribuida. Esse método deve chamar o
+   método ~calcular_media_ponderada()~ presente na classe Alunos.
+
+** Turma
+
+A classe Turma tem como atributos um ~professor~ e uma lista de
+~alunos~ e uma ~sala_de_aula~. A turma também tem um código que deve
+seguir a seguinte nomenclatura: *"<ANO>-<NOME>-<TURNO>"*
+
+Se a lista de alunos tiver mais de 10 alunos, então uma excessão
+customizada TurmaNaoPerimitidaException() deve ser lançada ao criar
+uma turma.
+
+A classe turma tem o(s) seguinte(s) método(s):
+
+1. ~encerrar_matricula()~: Nenhum aluno pode ser mais adicionado na
+   turma.
+2. ~encerrar_turma()~: Os dos atributos turma devem ser limpos. *Os*
+   *objetos professor e aluno(s) NÃO DEVEM ser sobrescritos ou
+   excluídos*
+
+** Sala de Aula
+
+A classe SalaDeAula tem como atributos uma ~turma~, um ~local~, que
+é uma *tupla*, contendo os seguintes campos: endereço, número,
+complemento (se houver).
+
+* Metodologia
+
+As classes devem ser criadas no diretório ~sala_de_aula/src/models~. As
+exceções, as necessárias, devem ser criadas no diretório
+~sala_de_aula/src/exceptions~.
+
+Para rodar o projeto um arquivo ~main.py~ deve comandar toda a
+execução do programa, ou seja, para construir o programa corretamente,
+os modulos precisarão estar presentes neste arquivo.
+
+Todos os atributos listados são obrigatórios e devem seguir a
+estrutura apresentada.
+
+* Dica bônus
+
+Para fazer um programinha legal, crie no arquivo ~main.py~ um
+[[https://academify.com.br/criar-menu-interativo-terminal-python/][menu interativo]]. Lembre-se, mais imporante do que perfeito, é feito. Esse trabalho é
+para aprendizagem e você tem o tempo necessário para fazê-lo.
+
+Bons estudos!
+
+#+BEGIN_EXPORT latex
+\vspace{3em}
+\begin{center}
+\small
+\href{https://github.com/joaoaugustolaner/sala_de_aula}{UC1 - Sala de Aula}
+© 2026 by
+\href{https://joao-laner.codeberg.page/}{João Augusto}
+is licensed under
+\href{https://creativecommons.org/licenses/by-sa/4.0/}{CC BY-SA 4.0}
+\ccbysa
+\end{center}
+#+END_EXPORT
