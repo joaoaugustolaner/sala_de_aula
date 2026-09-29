@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
 
     cao = Cachorro()
-    # print(cao.fazer_som())
+    print(cao.fazer_som())
 
     gato = Gato("Leôncio")
     print(gato.fazer_som())
